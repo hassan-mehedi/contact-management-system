@@ -1,6 +1,9 @@
 import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { isUserAuthenticated } from "../../server/actions";
 
-export default function Home() {
+export default async function Home() {
+    const authenticated = await isUserAuthenticated();
+
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content text-center">
@@ -10,14 +13,16 @@ export default function Home() {
                         Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut
                         repudiandae et a id nisi
                     </p>
-                    <div className="flex justify-center gap-2">
-                        <button className="btn btn-outline btn-success">
-                            <LoginLink>Sign in</LoginLink>
-                        </button>
-                        <button className="btn btn-outline btn-info">
-                            <RegisterLink>Sign up</RegisterLink>
-                        </button>
-                    </div>
+                    {!authenticated && (
+                        <div className="flex justify-center gap-2">
+                            <button className="btn btn-outline btn-success">
+                                <LoginLink>Sign in</LoginLink>
+                            </button>
+                            <button className="btn btn-outline btn-info">
+                                <RegisterLink>Sign up</RegisterLink>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
