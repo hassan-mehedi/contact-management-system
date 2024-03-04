@@ -17,7 +17,9 @@ export default async function NavBar() {
     return (
         <div className="navbar bg-base-100 sticky top-0 shadow-lg">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <Link href="/" className="btn btn-ghost text-xl">
+                    daisyUI
+                </Link>
             </div>
             <div className="flex-none">
                 <div className="navbar-center lg:flex">
