@@ -6,6 +6,10 @@ import SaveContactButton from "@/components/save";
 import { getContact, updateContact } from "../../../../server/actions";
 
 export default function ContactEditPage({ params }) {
+    if (params.id.length != 12) {
+        throw new Error("Invalid contact id");
+    }
+
     const router = useRouter();
     const [data, setData] = useState({
         name: "",
@@ -18,6 +22,8 @@ export default function ContactEditPage({ params }) {
         getContact(params.id).then(response => {
             if (response.success) {
                 setData(response.data);
+            } else {
+                throw new Error(response.message);
             }
         });
     }, [params.id]);
