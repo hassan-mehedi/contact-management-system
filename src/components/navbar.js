@@ -35,7 +35,7 @@ export default function NavBar() {
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className={`w-6 h-6 ${!isMenuOpen && "hidden"}`}
+                                    className={`w-6 h-6 ${isMenuOpen && "hidden"}`}
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -46,7 +46,7 @@ export default function NavBar() {
 
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className={`w-6 h-6 ${isMenuOpen && "hidden"}`}
+                                    className={`w-6 h-6 ${!isMenuOpen && "hidden"}`}
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -60,7 +60,7 @@ export default function NavBar() {
 
                     <div
                         className={`absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center ${
-                            isMenuOpen && "hidden"
+                            !isMenuOpen && "hidden"
                         }`}
                     >
                         <div className="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
