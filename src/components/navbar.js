@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import CMSLogo from "@/../public/cms-logo.png";
+import DeafultAvatar from "@/../public/default-avatar.jpg";
 import { isUserAuthenticated, getUserDetails } from "../../server/actions";
 
 export default async function NavBar() {
@@ -62,12 +63,13 @@ export default async function NavBar() {
                             >
                                 Home
                             </Link>
-                            <Link
-                                href="/about"
+                            <a
+                                href="https://github.com/hassan-mehedi/contact-management-system"
+                                target="_blank"
                                 className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
                             >
                                 About Us
-                            </Link>
+                            </a>
                             {authenticated && (
                                 <>
                                     <Link
@@ -75,12 +77,6 @@ export default async function NavBar() {
                                         className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
                                     >
                                         Contacts
-                                    </Link>
-                                    <Link
-                                        href="/profile"
-                                        className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100"
-                                    >
-                                        Profile
                                     </Link>
 
                                     <LogoutLink className="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100">
@@ -94,7 +90,7 @@ export default async function NavBar() {
                             <div className="flex items-center mt-4 lg:mt-0">
                                 <button type="button" className="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
                                     <div className="w-12 h-12 overflow-hidden border-2 border-gray-400 rounded-full">
-                                        <Image src={user.picture} width={120} height={120} className="object-cover" alt="avatar" />
+                                        <Image src={user.picture || DeafultAvatar} width={120} height={120} className="object-cover" alt="avatar" />
                                     </div>
 
                                     <h3 className="mx-2 text-gray-700 lg:hidden">{user.given_name}</h3>
