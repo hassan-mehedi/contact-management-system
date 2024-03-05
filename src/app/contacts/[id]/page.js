@@ -6,8 +6,8 @@ import SaveContactButton from "@/components/save";
 import { getContact, updateContact } from "../../../../server/actions";
 
 export default function ContactEditPage({ params }) {
-    if (params.id.length != 12) {
-        throw new Error("Invalid contact id");
+    if (params.id.length != 24) {
+        throw new Error("Invalid contact. Delete the contact and try again.");
     }
 
     const router = useRouter();

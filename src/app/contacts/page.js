@@ -4,17 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { isUserAuthenticated, getAllContactsByUser, deleteContact } from "@/../server/actions";
+import DefaultAvatar from "@/../public/default-avatar.jpg";
 import ContactDeleteIconButton from "@/components/delete";
 import ContactEditIconButton from "@/components/edit";
+import Search from "@/components/search";
 
-export default async function ContactsPage() {
+export default async function ContactsPage({ searchParams }) {
+    const searchTerm = searchParams.query || null;
     const authenticated = await isUserAuthenticated();
 
     if (!authenticated) {
         redirect("/api/auth/login");
     }
 
-    const contacts = await getAllContactsByUser();
+    const contacts = await getAllContactsByUser(searchTerm);
 
     return (
         <section className="container px-4 mx-auto my-12">
@@ -29,24 +32,28 @@ export default async function ContactsPage() {
                     <p className="mt-1 text-sm text-gray-500">Contacts are sorted alphabetically</p>
                 </div>
 
-                <Link href="/contacts/create">
-                    <div className="flex items-center mt-4 gap-x-3">
-                        <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                <div className="flex items-end gap-4">
+                    <Search />
 
-                            <span>Add Contact</span>
-                        </button>
-                    </div>
-                </Link>
+                    <Link href="/contacts/create">
+                        <div className="flex items-center mt-4 gap-x-3">
+                            <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth="1.5"
+                                    stroke="currentColor"
+                                    className="w-5 h-5"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+
+                                <span>Add Contact</span>
+                            </button>
+                        </div>
+                    </Link>
+                </div>
             </div>
 
             <div className="flex flex-col mt-6">
@@ -114,7 +121,7 @@ export default async function ContactsPage() {
                                                                 width={40}
                                                                 height={40}
                                                                 className="object-cover w-10 h-10 rounded-full"
-                                                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                                                src={DefaultAvatar}
                                                                 alt=""
                                                             />
 
@@ -149,7 +156,7 @@ export default async function ContactsPage() {
                 </div>
             </div>
 
-            <div className="flex items-center justify-between mt-6">
+            {/* <div className="flex items-center justify-between mt-6">
                 <a
                     href="#"
                     className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100"
@@ -209,7 +216,7 @@ export default async function ContactsPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                     </svg>
                 </a>
-            </div>
+            </div> */}
         </section>
     );
 }
