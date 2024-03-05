@@ -15,12 +15,35 @@ async function getUserDetails() {
     return await getUser();
 }
 
-async function getAllContactsByUser() {
+async function getAllContactsByUser(searchTerm) {
     try {
-        const prisma = new PrismaClient();
-        const data = await prisma.contact.findMany({});
+        const user = await getUserDetails();
+        const userEmail = user.email;
 
-        if (data.length === 0) {
+        const prisma = new PrismaClient();
+        let data = {};
+
+        if (searchTerm) {
+            data = await prisma.contact.findMany({
+                where: {
+                    AND: [{ name: { contains: searchTerm, mode: "insensitive" } }, { userEmail: userEmail }],
+                },
+                orderBy: {
+                    name: "asc",
+                },
+            });
+        } else {
+            data = await prisma.contact.findMany({
+                where: {
+                    userEmail: userEmail,
+                },
+                orderBy: {
+                    name: "asc",
+                },
+            });
+        }
+
+        if (!data) {
             return { success: false, error: false, message: "No contacts found" };
         }
 
