@@ -55,23 +55,13 @@ async function getAllContactsByUser(searchTerm) {
 
 async function createContact(formData) {
     try {
-        const name = formData.get("name");
-        const email = formData.get("email");
-        const phoneNumber = formData.get("phoneNumber");
-        const address = formData.get("address");
-
-        if (!name) {
-            return { success: false, message: "Please fill the name field" };
-        }
-
-        if (!email && !phoneNumber && !address) {
-            return { success: false, message: "Please fill at least one type of contact" };
-        }
+        const { name, email, address, phoneNumber } = formData;
 
         const user = await getUserDetails();
         const userEmail = user.email;
 
         const prisma = new PrismaClient();
+
         await prisma.contact.create({
             data: {
                 name,
@@ -84,9 +74,10 @@ async function createContact(formData) {
 
         revalidatePath("/contacts");
 
-        return { success: true, message: "Successfully created the contact" };
+        return { success: true, warning: false, error: false, message: "Successfully created the contact" };
     } catch (error) {
         console.error(error);
+        return { success: false, warning: false, error: true, message: "Server error" };
     }
 }
 
@@ -111,18 +102,7 @@ async function getContact(contactId) {
 
 async function updateContact(contactId, formData) {
     try {
-        const name = formData.get("name");
-        const email = formData.get("email");
-        const phoneNumber = formData.get("phoneNumber");
-        const address = formData.get("address");
-
-        if (!name) {
-            return { success: false, message: "Please fill the name field" };
-        }
-
-        if (!email && !phoneNumber && !address) {
-            return { success: false, message: "Please fill at least one type of contact" };
-        }
+        const { name, email, address, phoneNumber } = formData;
 
         const user = await getUserDetails();
         const userEmail = user.email;
@@ -143,9 +123,10 @@ async function updateContact(contactId, formData) {
 
         revalidatePath("/contacts");
 
-        return { success: true, message: "Successfully updated the contact" };
+        return { success: true, warning: false, error: false, message: "Successfully updated the contact" };
     } catch (error) {
         console.error(error);
+        return { success: false, warning: false, error: true, message: "Server error" };
     }
 }
 
